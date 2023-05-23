@@ -1,0 +1,25 @@
+<!--@subject {{trans "Products back in stock alert"}} @-->
+<!--@vars {
+"var customerName":"Customer Name",
+"var product_ids":"Product IDs",
+"var sender_name":"Sender Name",
+"template config_path=\"design\/email\/footer_template\"":"Email Footer Template",
+"template config_path=\"design\/email\/header_template\"":"Email Header Template"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<p>Dear {{var customer_name}},</p>
+
+<p>We would like to inform you that the following products are now available in stock:</p>
+<ul>
+    {{foreach var="product_id" from=$var.product_ids}}
+        <li>{{var product_id}}</li>
+    {{/foreach}}
+</ul>
+
+<p>Thank you for your interest!</p>
+
+<p>Best regards,<br>
+{{var sender_name}}</p>
+
+{{template config_path="design/email/footer_template"}}

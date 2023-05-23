@@ -1,0 +1,30 @@
+<div id="notification-popup">
+    <form id="notify-me-form" method="post" data-mage-init='{"validation":{}}'>
+        <div class="field name required">
+            <label class="label" for="notify-me-name"><span><?= __('Name') ?></span></label>
+            <div class="control">
+                <input type="text" name="name" id="notify-me-name" title="<?= __('Name') ?>" class="input-text" data-validate="{required:true}">
+            </div>
+        </div>
+        <div class="field email required">
+            <label class="label" for="notify-me-email"><span><?= __('Email') ?></span></label>
+            <div class="control">
+                <input type="email" name="email" id="notify-me-email" title="<?= __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}">
+            </div>
+        </div>
+        <input type="hidden" name="product_id" id="notify-me-product-id" value="">
+        <input type="hidden" name="customer_id" id="notify-me-customer-id" value="<?= $block->getCustomerId() ?>">
+    </form>
+</div>
+<script>
+    require(['jquery'], function($) {
+        $(document).on('click', '#notify-button', function() {
+            var productId = $(this).data('product-id');
+            $('#notify-me-product-id').val(productId);
+            $('#notification-popup').show();
+            var customer_id= $('#notify-me-customer-id').val()
+            // console.log(customer_id);
+            // console.log(productId);
+        });
+    });
+</script>

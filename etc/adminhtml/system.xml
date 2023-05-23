@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="Codilar_NotifyStock" translate="label" sortOrder="10">
+            <label>Stock Agent</label>
+        </tab>
+        <section id="stockAgent_settings" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Notification Config</label>
+            <tab>Codilar_NotifyStock</tab>
+            <resource>Codilar_NotifyStock::config</resource>
+            <group id="notify_config" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configurations</label>
+                <field id="enable" translate="label" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Stock Agent</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cron_interval" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frequency</label>
+                    <source_model>Codilar\NotifyStock\Model\Config\Source\CustomOptions</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <!-- <backend_model>Codilar\NotifyStock\Model\Config\Backend\CronSchedule</backend_model> -->
+                </field>
+                <field id="sender_name" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sender Name</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="sender_email" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sender Email</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <validate>validate-email</validate>
+                </field>
+                <field id="template" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <comment>Email template is chosen based on theme fallback when "Default" option is selected.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

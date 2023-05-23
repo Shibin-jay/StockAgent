@@ -1,0 +1,43 @@
+<?php
+
+$product = $block->getProduct();
+$productId = $product -> getId();
+/** @var \Vendor\ModuleName\ViewModel\CustomerLogin $viewModel */
+$stockStatus =$block->getData('view_model')->getStockStatus($block);
+// $viewModel = $block->getData('view_model');
+//  var_dump(($block->getData('view_model')->isLoggedIn()));
+// var_dump($block->getData('view_model')->getStockStatus($block));
+// var_dump($block->isCustomerLoggedIn());
+//  die();
+
+?>
+
+<style>
+    .product-full-width-section{
+        width: 80px;
+        height: 50px;
+        margin: 5px;
+    }
+    .product-attribute{
+        text-align: left;
+    }
+    #notify-button{
+        font-size: 12px;
+        padding: 0;
+        margin: 5px;4
+    }
+</style>
+<div class="product-full-width-section">
+    <div class="product-attribute">
+        <span class="attribute-value stock-status"><?= $stockStatus ?></span>
+    </div>
+    <?php if ($stockStatus === 'Out of Stock') : ?>
+        <div class="product-attribute" style="text-align: left">
+            <button type="button" class="btn btn-primary" id="notify-button"
+                    data-mage-init='{"notifyPopup":{}}'
+                    data-product-id="<?= $productId ?>"
+                    data-product-sku="<?= $product->getSku() ?>">Notify Me!
+            </button>
+        </div>
+    <?php endif; ?>
+</div>

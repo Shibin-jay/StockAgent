@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <referenceContainer name="category.product.addto">
+                <block class="Magento\Catalog\Block\Product\ProductList\Item\Container"
+                    name="custom.list"
+                    template="Codilar_NotifyStock::product/list.phtml">
+                     <arguments>
+                        <argument name="view_model" xsi:type="object">Codilar\NotifyStock\ViewModel\CustomerLogin</argument>
+                    </arguments>
+                    <!-- <block class="Codilar\Notify Stock\Block\SalableQtyStatus" name="salable_qty_status" /> -->
+                </block>
+            </referenceContainer>
+            <block class="Codilar\NotifyStock\Block\SalableQtyStatus" name="notification.popup" template="Codilar_NotifyStock::popup.phtml" />
+        </referenceContainer>
+    </body>
+</page>
