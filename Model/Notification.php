@@ -4,28 +4,38 @@ namespace Codilar\NotifyStock\Model;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku;
 use Codilar\NotifyStock\Api\Data\NotificationInterface;
-use Magento\CatalogInventory\Api\StockRegistryInterface;
 
 class Notification extends AbstractModel implements NotificationInterface
 {
-//    const NAME = 'name';
-//    const EMAIL = 'email';
-//    const PRODUCT_ID = 'product_id';
-//    const CUSTOMER_ID = 'customer_id';
-
-     /**
+    /**
      * @var GetSalableQuantityDataBySku
      */
     private $getSalableQuantityDataBySku;
 
     /**
-     * @var stockRegistryInterface
+     * @var StockRegistryInterface
      */
     private $stockRegistry;
 
+    /**
+     * @var ProductRepositoryInterface
+     */
+    private $productRepository;
 
+    /**
+     * Notification constructor.
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Codilar\NotifyStock\Model\ResourceModel\Notification $resource
+     * @param \Codilar\NotifyStock\Model\ResourceModel\Notification\Collection $resourceCollection
+     * @param ProductRepositoryInterface $productRepository
+     * @param StockRegistryInterface $stockRegistry
+     * @param GetSalableQuantityDataBySku $getSalableQuantityDataBySku
+     * @param array $data
+     */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -33,20 +43,26 @@ class Notification extends AbstractModel implements NotificationInterface
         \Codilar\NotifyStock\Model\ResourceModel\Notification\Collection $resourceCollection,
         ProductRepositoryInterface $productRepository,
         StockRegistryInterface $stockRegistry,
+        GetSalableQuantityDataBySku $getSalableQuantityDataBySku,
         array $data = []
     ) {
         $this->productRepository = $productRepository;
         $this->stockRegistry = $stockRegistry;
-        // $this->getSalableQuantityDataBySku = $getSalableQuantityDataBySku;
+        $this->getSalableQuantityDataBySku = $getSalableQuantityDataBySku;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * Initialize model
+     */
     protected function _construct()
     {
-        $this->_init('Codilar\NotifyStock\Model\ResourceModel\Notification');
+        $this->_init(\Codilar\NotifyStock\Model\ResourceModel\Notification::class);
     }
 
     /**
+     * Get the name attribute value
+     *
      * @return string|null
      */
     public function getName()
@@ -55,6 +71,8 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
+     * Set the name attribute value
+     *
      * @param string $name
      * @return $this
      */
@@ -64,6 +82,8 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
+     * Get the email attribute value
+     *
      * @return string|null
      */
     public function getEmail()
@@ -72,6 +92,8 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
+     * Set the email attribute value
+     *
      * @param string $email
      * @return $this
      */
@@ -81,6 +103,8 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
+     * Get the product ID attribute value
+     *
      * @return int|null
      */
     public function getProductId()
@@ -89,6 +113,8 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
+     * Set the product ID attribute value
+     *
      * @param int $productId
      * @return $this
      */
@@ -98,6 +124,8 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
+     * Get the customer ID attribute value
+     *
      * @return int|null
      */
     public function getCustomerId()
@@ -106,6 +134,8 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
+     * Set the customer ID attribute value
+     *
      * @param int $customerId
      * @return $this
      */
@@ -115,7 +145,7 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
-     * Retrieve notification by id
+     * Retrieve notification by ID
      *
      * @param int $notificationId
      * @return $this|null
@@ -130,7 +160,7 @@ class Notification extends AbstractModel implements NotificationInterface
     }
 
     /**
-     * Get product name by ID
+     * Get the product name by ID
      *
      * @param int $productId
      * @return string|null
@@ -144,8 +174,9 @@ class Notification extends AbstractModel implements NotificationInterface
             return null;
         }
     }
-     /**
-     * Retrieve the quantity of a product by its product ID
+
+    /**
+     * Get the product quantity by ID
      *
      * @param int $productId
      * @return float|null
@@ -156,10 +187,20 @@ class Notification extends AbstractModel implements NotificationInterface
             $product = $this->productRepository->getById($productId);
             $stockItem = $this->stockRegistry->getStockItem($product->getId());
             return $stockItem->getQty();
-//            die($stockItem->getQty());
         } catch (\Exception $e) {
             return null;
         }
     }
 
+    /**
+     * Check if the product is salable
+     *
+     * @param ProductInterface $product
+     * @param WebsiteInterface $website
+     * @return bool
+     */
+    public function isSalable(ProductInterface $product, WebsiteInterface $website): bool
+    {
+        return $product->isSalable();
+    }
 }

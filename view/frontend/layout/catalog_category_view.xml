@@ -10,7 +10,6 @@
                      <arguments>
                         <argument name="view_model" xsi:type="object">Codilar\NotifyStock\ViewModel\CustomerLogin</argument>
                     </arguments>
-                    <!-- <block class="Codilar\Notify Stock\Block\SalableQtyStatus" name="salable_qty_status" /> -->
                 </block>
             </referenceContainer>
             <block class="Codilar\NotifyStock\Block\SalableQtyStatus" name="notification.popup" template="Codilar_NotifyStock::popup.phtml" />

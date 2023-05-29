@@ -6,6 +6,7 @@ use Codilar\NotifyStock\Model\NotificationRepository;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\CatalogInventory\Api\Data\StockItemInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\CouldNotSaveException;
 
 class StockUpdater
 {
@@ -46,6 +47,7 @@ class StockUpdater
             }
         } catch (LocalizedException $e) {
             // Handle exception
+            throw new CouldNotSaveException(__($e->getMessage()));
         }
     }
 

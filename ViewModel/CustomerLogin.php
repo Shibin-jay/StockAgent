@@ -9,10 +9,28 @@ use Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku;
 
 class CustomerLogin implements ArgumentInterface
 {
+    /**
+     * @var Session
+     */
     protected $customerSession;
+
+    /**
+     * @var RequestInterface
+     */
     protected $request;
+
+    /**
+     * @var GetSalableQuantityDataBySku
+     */
     protected $getSalableQuantityDataBySku;
 
+    /**
+     * CustomerLogin constructor.
+     *
+     * @param Session $customerSession
+     * @param RequestInterface $request
+     * @param GetSalableQuantityDataBySku $getSalableQuantityDataBySku
+     */
     public function __construct(
         Session $customerSession,
         RequestInterface $request,
@@ -23,11 +41,22 @@ class CustomerLogin implements ArgumentInterface
         $this->getSalableQuantityDataBySku = $getSalableQuantityDataBySku;
     }
 
+    /**
+     * Check if customer is logged in
+     *
+     * @return bool
+     */
     public function isLoggedIn()
     {
         return $this->customerSession->isLoggedIn();
     }
 
+    /**
+     * Get stock status based on salable quantity
+     *
+     * @param object $block
+     * @return string
+     */
     public function getStockStatus($block)
     {
         $product = $block->getProduct();

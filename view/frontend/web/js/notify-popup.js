@@ -18,7 +18,7 @@ define([
                 var email = $('#notify-me-email').val();
                 var productId = $('input[name=product_id]').val();
                 var customerId = customerData.get('customer');
-                // console.log(customerId);
+                console.log(customerId);
                 if (customer.isLoggedIn()) {
                     console.log('hihihi');
                     var customerModel = customerData.get('customerId');

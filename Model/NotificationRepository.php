@@ -6,7 +6,7 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Codilar\NotifyStock\Api\NotificationRepositoryInterface;
 use Codilar\NotifyStock\Api\Data\NotificationInterface;
 use Codilar\NotifyStock\Model\ResourceModel\Notification as NotificationResource;
-
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Codilar\NotifyStock\Model\ResourceModel\Notification\CollectionFactory as NotificationCollectionFactory;
 
 class NotificationRepository implements NotificationRepositoryInterface
@@ -20,19 +20,35 @@ class NotificationRepository implements NotificationRepositoryInterface
      * @var NotificationCollectionFactory
      */
     private $notificationCollectionFactory;
+
     /**
      * @var NotificationResource
      */
     private $notificationResource;
 
+    /**
+     * @var ProductRepositoryInterface
+     */
+    private $productRepository;
+
+    /**
+     * NotificationRepository constructor.
+     *
+     * @param NotificationFactory $notificationFactory
+     * @param NotificationCollectionFactory $notificationCollectionFactory
+     * @param NotificationResource $notificationResource
+     * @param ProductRepositoryInterface $productRepository
+     */
     public function __construct(
         NotificationFactory $notificationFactory,
         NotificationCollectionFactory $notificationCollectionFactory,
-        NotificationResource $notificationResource
+        NotificationResource $notificationResource,
+        ProductRepositoryInterface $productRepository
     ) {
         $this->notificationResource = $notificationResource;
         $this->notificationFactory = $notificationFactory;
         $this->notificationCollectionFactory = $notificationCollectionFactory;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -85,5 +101,21 @@ class NotificationRepository implements NotificationRepositoryInterface
         $searchResults->setTotalCount($collection->getSize());
 
         return $searchResults;
+    }
+
+    /**
+     * Retrieve product by ID
+     *
+     * @param int $productId
+     * @return \Magento\Catalog\Api\Data\ProductInterface|null
+     */
+    public function getProductById($productId)
+    {
+        try {
+            $product = $this->productRepository->getById($productId);
+            return $product;
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            return null;
+        }
     }
 }

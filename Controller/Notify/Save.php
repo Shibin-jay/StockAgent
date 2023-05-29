@@ -28,6 +28,14 @@ class Save extends Action
      */
     private $customerSession;
 
+    /**
+     * Save constructor.
+     *
+     * @param Context $context
+     * @param JsonFactory $resultJsonFactory
+     * @param NotificationRepositoryInterface $notificationRepository
+     * @param CustomerSession $customerSession
+     */
     public function __construct(
         Context $context,
         JsonFactory $resultJsonFactory,
@@ -40,6 +48,11 @@ class Save extends Action
         $this->customerSession = $customerSession;
     }
 
+    /**
+     * Execute action based on request and return result
+     *
+     * @return Json
+     */
     public function execute()
     {
         $resultJson = $this->resultJsonFactory->create();
@@ -65,6 +78,7 @@ class Save extends Action
             return $resultJson->setData(['success' => false, 'message' => $e->getMessage()]);
         }
 
-        return $resultJson->setData(['success' => true, 'message' => __('You will be notified when the product is back in stock')]);
+        return $resultJson->setData(['success' => true, 'message' =>
+         __('You will be notified when the product is back in stock')]);
     }
 }

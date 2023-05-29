@@ -8,7 +8,7 @@ use Codilar\NotifyStock\Api\Data\NotificationInterface;
 interface NotificationRepositoryInterface
 {
     /**
-     * Save notification
+     * Save notification.
      *
      * @param array $data
      * @return bool
@@ -17,7 +17,7 @@ interface NotificationRepositoryInterface
     public function saveNotification(array $data);
 
     /**
-     * Retrieve notifications by status
+     * Retrieve notifications by status.
      *
      * @param int $status
      * @return \Codilar\NotifyStock\Api\Data\NotificationInterface[]
@@ -25,10 +25,18 @@ interface NotificationRepositoryInterface
     public function getListByStatus($status);
 
     /**
-     * Retrieve notifications based on search criteria
+     * Retrieve notifications based on search criteria.
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Codilar\NotifyStock\Api\Data\NotificationSearchResultsInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
+
+    /**
+     * Retrieve product by ID.
+     *
+     * @param int $productId
+     * @return \Magento\Catalog\Api\Data\ProductInterface|null
+     */
+    public function getProductById($productId);
 }
