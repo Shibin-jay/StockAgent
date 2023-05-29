@@ -117,8 +117,8 @@ class SendNotifications
         // $defaultStoreId = $website->getDefaultStore()->getId();
         foreach ($notificationsData as $notification) {
             $product = $this->productRepository->getById($notification->getProductId());
-            // $this->sendEmail($notification);
-            $this->updateDatabase($notification, $product);
+            $this->sendEmail($notification);
+            // $this->updateDatabase($notification, $product);
         }
     }
     public function setStore($store)
